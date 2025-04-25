@@ -18,10 +18,14 @@ const QRCodeScanner = () => {
 
     const getCurrentLocation = () =>
         new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(
-                (position) => resolve(position.coords),
-                (error) => reject(error)
-            );
+            if (!navigator.geolocation) {
+                reject(new Error('Geolocation is not supported by your browser.'));
+            } else {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => resolve(position.coords),
+                    (error) => reject(error)
+                );
+            }
         });
 
     const isWithinLocation = async (targetLat, targetLng) => {
@@ -153,7 +157,7 @@ const QRCodeScanner = () => {
                     <div className="relative w-full h-[350px] overflow-hidden rounded-xl">
                         {!scanComplete ? (
                             <QrReader
-                                constraints={{ video: { facingMode: "environment" } }}
+                                constraints={{ video: { facingMode: { exact: "environment"}  } }}
                                 onResult={handleScan}
                                 onError={handleError}
                                 style={{ width: '100%', height: '100%' }}
