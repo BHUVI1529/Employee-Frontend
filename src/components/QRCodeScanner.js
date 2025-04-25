@@ -156,7 +156,7 @@ const QRCodeScanner = () => {
 
                     <div className="relative w-full h-[350px] overflow-hidden rounded-xl">
                         {!scanComplete ? (
-                            <QrReader
+                            <QrScanner
                             delay={300}
                                 constraints={{ video: { facingMode: "environment"  } }}
                                 onResult={handleScan}
