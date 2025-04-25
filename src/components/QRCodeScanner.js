@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { QrReader } from 'react-qr-reader';
+import  QrScanner  from 'react-qr-scanner';
 import axios from 'axios';
 import logo from './nictlogo.jpg';
 
@@ -48,11 +48,11 @@ const QRCodeScanner = () => {
         }
     };
 
-    const handleScan = async (result) => {
-        if (!result || isProcessingRef.current) return;
+    const handleScan = async (scannedText) => {
+        if (!scannedText || isProcessingRef.current) return;
 
-        const scannedText = result?.text || result?.data;
-        if (!scannedText) return;
+        // const scannedText = result?.text || result?.data;
+        // if (!scannedText) return;
 
         isProcessingRef.current = true;
         setScanComplete(true);
@@ -116,7 +116,7 @@ const QRCodeScanner = () => {
             if (attendanceType === "Login") {
                 navigate('/login-success');
             } else if (attendanceType === "Logout") {
-                navigate('/remark/:userId/:instituteId');
+                navigate(`/remark/${employeeId}/${instituteId}`);
             } else {
                 setError("Unknown attendance type received.");
                 resetScanner();
@@ -157,7 +157,8 @@ const QRCodeScanner = () => {
                     <div className="relative w-full h-[350px] overflow-hidden rounded-xl">
                         {!scanComplete ? (
                             <QrReader
-                                constraints={{ video: { facingMode: { exact: "environment"}  } }}
+                            delay={300}
+                                constraints={{ video: { facingMode: "environment"  } }}
                                 onResult={handleScan}
                                 onError={handleError}
                                 style={{ width: '100%', height: '100%' }}
@@ -181,4 +182,4 @@ const QRCodeScanner = () => {
     );
 };
 
-export default QRCodeScanner;
+export default QRCodeScanner;
