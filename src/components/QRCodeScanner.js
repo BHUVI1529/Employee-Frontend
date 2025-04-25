@@ -159,7 +159,7 @@ const QRCodeScanner = () => {
                             <QrScanner
                             delay={300}
                                 constraints={{ video: { facingMode: "environment"  } }}
-                                onResult={handleScan}
+                                onScan={handleScan}
                                 onError={handleError}
                                 style={{ width: '100%', height: '100%' }}
                             />
